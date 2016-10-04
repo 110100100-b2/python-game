@@ -103,29 +103,13 @@ def moveSelector(key, grid, current_pos):
         
 
          
-#Returns (new_pos, color)
-
-
-
 
 # -------- Main Program Loop -----------
 while not done:
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            # User clicks the mouse. Get the position
-            pos = pygame.mouse.get_pos()
-            # Change the x/y screen coordinates to grid coordinates
-            column = pos[0] // (WIDTH + MARGIN)
-            row = pos[1] // (HEIGHT + MARGIN)
-            
-            # Set that location to one or two depending on wheter it's been clicked before.
-            if (grid[row][column] == 0):                
-                grid[row][column] = 1
-            else:
-                grid[row][column] = 2
-            print("Click ", pos, "Grid coordinates: ", row, column)
+            done = True  
+
             
         elif event.type == pygame.KEYDOWN:            
             
@@ -264,4 +248,5 @@ pygame.quit()
 #Down = +1 (for Row), bound = 2
 #Left = -1 (for Column), bound = 0
 #Right = +1 (for Column), bound = 2
+
 
