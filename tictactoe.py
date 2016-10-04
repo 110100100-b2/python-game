@@ -3,8 +3,10 @@ import pygame
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
+GREEN = (60, 186, 84)
+RED = (219, 50, 54)
+BLUE = (72, 133, 237)
+YELLOW = (244, 194, 13)
 
 screen= pygame.display.set_mode((600,625))
 
@@ -65,8 +67,7 @@ def moveSelector(key, grid, current_pos):
             else:
                 current_pos[1] -= 1
                 return(current_pos, RED) # Make Red               
-        else:
-            pass #i.e. do not move selector
+
 
     
     elif key == 'down':
@@ -77,8 +78,6 @@ def moveSelector(key, grid, current_pos):
             else:
                 current_pos[1] += 1
                 return(current_pos, RED) # Make Red  
-        else:
-            pass #i.e. do not move selector        
 
     
     elif key == 'left':
@@ -89,8 +88,7 @@ def moveSelector(key, grid, current_pos):
             else:
                 current_pos[0] -= 1
                 return(current_pos, RED) # Make Red  
-        else:
-            pass #i.e. do not move selector        
+       
         
 
     elif key == 'right':
@@ -101,8 +99,7 @@ def moveSelector(key, grid, current_pos):
             else:
                 current_pos[0] += 1
                 return(current_pos, RED) # Make Red  
-        else:
-            pass #i.e. do not move selector        
+    
         
 
          
@@ -135,74 +132,96 @@ while not done:
             """Player 1 Controls"""
             
             if event.key == pygame.K_UP:
-                if (player == 1):
+                if (player == 1 and current_pos[1] != 0):
                     data = moveSelector('up', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                elif current_pos[1] == 0:
+                    print('You cannot move further up')
                 else:
                     print('It is player 2 turn')
                 
             elif event.key == pygame.K_DOWN:
-                if (player == 1):
+                if (player == 1 and current_pos[1] != 2):
                     data = moveSelector('down', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                elif current_pos[1] == 2:
+                    print('You cannot move further down')                
                 else:
                     print('It is player 2 turn')
             elif event.key == pygame.K_LEFT:
-                if (player == 1):
+                if (player == 1 and current_pos[0] != 0):
                     data = moveSelector('left', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                elif current_pos[0] == 0:
+                    print('You cannot move further left')                
                 else:
                     print('It is player 2 turn')
             elif event.key == pygame.K_RIGHT:
-                if (player == 1):
+                if (player == 1 and current_pos[0] != 2):
                     data = moveSelector('right', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1] 
                     print(current_pos)
+                elif current_pos[0] == 2:
+                    print('You cannot move further right')                
                 else:
-                    print('It is player 2 turn')            
+                    print('It is player 2 turn')    
+                    
+                    
+             #Player 2 Controls
             
             
-            
-                 
-            #Player 2 Controls
-             
-            elif event.key == pygame.K_w:
-                if (player == 2):
+            if event.key == pygame.K_w:
+                if (player == 2 and current_pos[1] != 0):
                     data = moveSelector('up', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
-                    
+                elif current_pos[1] == 0:
+                    print('You cannot move further up')
                 else:
                     print('It is player 1 turn')
                 
             elif event.key == pygame.K_s:
-                if (player == 2):
+                if (player == 2 and current_pos[1] != 2):
                     data = moveSelector('down', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                elif current_pos[1] == 2:
+                    print('You cannot move further down')                
                 else:
                     print('It is player 1 turn')
             elif event.key == pygame.K_a:
-                if (player == 2):
+                if (player == 2 and current_pos[0] != 0):
                     data = moveSelector('left', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                elif current_pos[0] == 0:
+                    print('You cannot move further left')                
                 else:
                     print('It is player 1 turn')
             elif event.key == pygame.K_d:
-                if (player == 2):
+                if (player == 2 and current_pos[0] != 2):
                     data = moveSelector('right', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1]
+                    current_color = data[1] 
+                    print(current_pos)
+                elif current_pos[0] == 2:
+                    print('You cannot move further right')                
                 else:
-                    print('It is player 1 turn') 
-                    
-            
-                    
+                    print('It is player 1 turn')                 
+                        
+           
+            if event.key == pygame.K_RETURN:
+                if (player == 1):
+                    grid[current_pos[0]][current_pos[1]] = 1
+                    player = 2
+                else:
+                    grid[current_pos[0]][current_pos[1]] = 2
+                    player = 1
+                   
             
  
     # Set the screen background
@@ -214,10 +233,10 @@ while not done:
             color = WHITE
             if (row == current_pos[1] and column == current_pos[0]):
                 color = current_color
-            elif grid[row][column] == 1:
-                color = GREEN
-            elif grid[row][column] == 2:
-                color = RED            
+            elif grid[column][row] == 1: #This convention is kind of backwards because of the way cartesian co-ordinates are switched with inex notation aij
+                color = BLUE
+            elif grid[column][row] == 2:
+                color = YELLOW           
             pygame.draw.rect(screen,
                              color,
                              [(MARGIN + WIDTH) * column + MARGIN,
@@ -245,5 +264,4 @@ pygame.quit()
 #Down = +1 (for Row), bound = 2
 #Left = -1 (for Column), bound = 0
 #Right = +1 (for Column), bound = 2
-
 
