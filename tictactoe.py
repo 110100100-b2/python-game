@@ -124,7 +124,7 @@ def moveSelector(key, grid, current_pos):
                 return(current_pos, RED) # Make Red  
     
         
-
+warning = False
          
 
 # -------- Main Program Loop -----------
@@ -143,10 +143,13 @@ while not done:
                     data = moveSelector('up', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[1] == 0:
+                    warning = True
                     notification = myfont.render('You cannot move further up', 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
                 else:
+                    warning = True
                     notification = myfont.render("It is player 2's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
                 
@@ -155,35 +158,44 @@ while not done:
                     data = moveSelector('down', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[1] == 2:
                     notification = myfont.render("You cannot move further down", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))               
+                    screen.blit(notification, (225, 625-60))
+                    warning = True
                 else:
                     notification = myfont.render("It is player 2's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
             elif event.key == pygame.K_LEFT:
                 if (player == 1 and current_pos[0] != 0):
                     data = moveSelector('left', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[0] == 0:
                     notification = myfont.render("You cannot move further left", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))                
+                    screen.blit(notification, (225, 625-60))
+                    warning = True
                 else:
                     notification = myfont.render("It is player 2's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
             elif event.key == pygame.K_RIGHT:
                 if (player == 1 and current_pos[0] != 2):
                     data = moveSelector('right', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                    warning = False
                     print(current_pos)
                 elif current_pos[0] == 2:
                     notification = myfont.render("You cannot move further right", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))               
+                    screen.blit(notification, (225, 625-60))
+                    warning = True
                 else:
                     notification = myfont.render("It is player 2's turn", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))    
+                    screen.blit(notification, (225, 625-60))  
+                    warning = True
                     
                     
              #Player 2 Controls
@@ -194,47 +206,59 @@ while not done:
                     data = moveSelector('up', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[1] == 0:
                     notification = myfont.render("You cannot move further up", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
                 else:
                     notification = myfont.render("It is player 1's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
                 
             elif event.key == pygame.K_s:
                 if (player == 2 and current_pos[1] != 2):
                     data = moveSelector('down', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[1] == 2:
                     notification = myfont.render("You cannot mvoe further down", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))               
+                    screen.blit(notification, (225, 625-60)) 
+                    warning = True
                 else:
                     notification = myfont.render("It is player 1's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
             elif event.key == pygame.K_a:
                 if (player == 2 and current_pos[0] != 0):
                     data = moveSelector('left', grid, current_pos)
                     current_pos = data[0]
                     current_color = data[1]
+                    warning = False
                 elif current_pos[0] == 0:
                     notification = myfont.render("You cannot move further left", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))                
+                    screen.blit(notification, (225, 625-60)) 
+                    warning = True
                 else:
                     notification = myfont.render("It is player 1's turn", 1, (255,255,255))
                     screen.blit(notification, (225, 625-60))
+                    warning = True
             elif event.key == pygame.K_d:
                 if (player == 2 and current_pos[0] != 2):
                     data = moveSelector('right', grid, current_pos)
                     current_pos = data[0]
-                    current_color = data[1] 
+                    current_color = data[1]
+                    warning = False
                     print(current_pos)
                 elif current_pos[0] == 2:
                     notification = myfont.render("You cannot move further right", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))              
+                    screen.blit(notification, (225, 625-60))
+                    warning = True
                 else:
                     notification = myfont.render("It is player 1's turn", 1, (255,255,255))
-                    screen.blit(notification, (225, 625-60))               
+                    screen.blit(notification, (225, 625-60))  
+                    warning = True
                         
            
             if event.key == pygame.K_RETURN:
@@ -258,6 +282,13 @@ while not done:
             color = WHITE
             if (row == current_pos[1] and column == current_pos[0]):
                 color = current_color
+                if (current_color == RED):
+                    notification = myfont.render("You cannot use this spot", 1, (255,255,255))
+                    screen.blit(notification, (225, 625-60))
+                elif (current_color != RED and warning == False):
+                    notification = myfont.render("This spot is available", 1, (255,255,255))
+                    screen.blit(notification, (225, 625-60))                    
+                    
             elif grid[column][row] == 1: #This convention is kind of backwards because of the way cartesian co-ordinates are switched with inex notation aij
                 color = BLUE
             elif grid[column][row] == 2:
@@ -298,5 +329,6 @@ def printX_s(grid):
 def printO_s(grid):
     # Take a look at grid values and load images onto x-y co-ordinates
     pass
+
 
 
