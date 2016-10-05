@@ -165,24 +165,37 @@ def gameFinished(grid):
     return True
 
 
+game_state = 0
+"""0 implies game in session"""
+"""1 imples end of game, in limbo"""
 
 def gameStatus(grid):
     global screen
     global notification
+    global game_state
+    global player1_score
+    global player2_score
     if (gameFinished(grid) == True):
         result = checkGrid(grid)
         if (result == 1):
-            print('Player 1 wins')
-            notification = myfont.render('Player 1 wins', 1, (255,255,255))
+            notification = myfont.render('Player 1 wins. Press "i" to play again', 1, (255,255,255))
             screen.blit(notification, (225, 60))
+            player1_score += 1
+            game_state = 1
         elif (result == 2):
-            print('Player 2 wins')
-            notification = myfont.render('Player 2 wins', 1, (255,255,255))
+            notification = myfont.render('Player 2 wins. Press "i" to play again', 1, (255,255,255))
             screen.blit(notification, (225, 60))
+            player1_score += 1
+            game_state = 1
         elif (result == 0):
-            print('Draw')
             notification = myfont.render('Match is drawn. Press "i" to play again', 1, (255,255,255))
             screen.blit(notification, (225, 60))
+            game_state = 1
+        
+def reset(grid):
+    for i in range(3):
+        for j in range(3):
+            grid[i][j] = 0
          
 
 # -------- Main Program Loop -----------
@@ -326,6 +339,12 @@ while not done:
                 else:
                     grid[current_pos[0]][current_pos[1]] = 2
                     player = 1
+                    
+                    
+            if (event.key == pygame.K_i and game_state == 1):
+                reset(grid)
+                current_pos = [1,1]
+                game_state == 0
                    
             
  
@@ -334,6 +353,7 @@ while not done:
     # Updating notification
     screen.blit(notification, (225, 625-60))
     
+    #Checking game status
     gameStatus(grid)
     
     # Draw the grid
@@ -391,11 +411,12 @@ def printO_s(grid):
     pass
 
 
-def reset(grid):
-    #Resets grid to 0 in every position
-    #Sets current_pos to [1,1]
-    pass
 
+
+
+
+            
+        
 
             
         
