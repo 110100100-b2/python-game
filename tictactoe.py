@@ -1,3 +1,9 @@
+x = 200
+y = 50
+
+import os
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+
 import pygame
  
 # Define some colors
@@ -223,8 +229,8 @@ while not done:
                 color = YELLOW           
             pygame.draw.rect(screen,
                              color,
-                             [(MARGIN + WIDTH) * column + MARGIN,
-                              (MARGIN + HEIGHT) * row + MARGIN,
+                             [50+(MARGIN + WIDTH) * column + MARGIN,
+                              75+(MARGIN + HEIGHT) * row + MARGIN,
                               WIDTH,
                               HEIGHT])
 
@@ -248,5 +254,17 @@ pygame.quit()
 #Down = +1 (for Row), bound = 2
 #Left = -1 (for Column), bound = 0
 #Right = +1 (for Column), bound = 2
+
+
+def printX_s(grid):
+    # Take a look at grid values and load images onto x-y co-ordinates
+    pass
+
+def printO_s(grid):
+    # Take a look at grid values and load images onto x-y co-ordinates
+    pass
+
+
+
 
 
