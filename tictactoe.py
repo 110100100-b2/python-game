@@ -1,6 +1,9 @@
 x = 200
 y = 50
 
+player1_score = 0
+player2_score = 0
+
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 
@@ -125,6 +128,61 @@ def moveSelector(key, grid, current_pos):
     
         
 warning = False
+
+def checkGrid(grid):    
+    #Check across rows
+    for i in range(3):
+            if (grid[i][0] == grid[i][1] and grid[i][0] == grid[i][2]):
+                return grid[i][0]
+    #Check across columns
+    for i in range(3):
+        if (grid[0][i] == grid[1][i] and grid[0][i] == grid[2][i]):
+            return grid[0][i]
+    #Check diagonals
+    if (grid[1][1] == grid[2][2] and grid[2][2] == grid[0][0]):
+        return grid[0][0]
+    elif (grid[0][2] == grid[1][1] and grid[2][0] == grid[1][1]):
+        return grid[0][2]
+    return 0 #This only occurs if there isn't a winner
+
+"""print(checkGrid([[1,2,2],
+                 [1,2,3],
+                 [3,3,2]]))"""
+
+
+
+def gameFinished(grid):
+    #Checks to see if there is a premature winner
+    if (checkGrid(grid) != 0): #This is only false if all zero's or a draw
+            return True    #Returns True if there is a premature winner
+    
+    #Checks to see if every move has been played
+    for i in range(3):
+        for j in range(3):
+            if (grid[i][j] == 0):
+                return False
+    #Returns true in the case of a draw and ever move played
+    return True
+
+
+
+def gameStatus(grid):
+    global screen
+    global notification
+    if (gameFinished(grid) == True):
+        result = checkGrid(grid)
+        if (result == 1):
+            print('Player 1 wins')
+            notification = myfont.render('Player 1 wins', 1, (255,255,255))
+            screen.blit(notification, (225, 60))
+        elif (result == 2):
+            print('Player 2 wins')
+            notification = myfont.render('Player 2 wins', 1, (255,255,255))
+            screen.blit(notification, (225, 60))
+        elif (result == 0):
+            print('Draw')
+            notification = myfont.render('Match is drawn. Press "i" to play again', 1, (255,255,255))
+            screen.blit(notification, (225, 60))
          
 
 # -------- Main Program Loop -----------
@@ -276,6 +334,8 @@ while not done:
     # Updating notification
     screen.blit(notification, (225, 625-60))
     
+    gameStatus(grid)
+    
     # Draw the grid
     for row in range(3):
         for column in range(3):
@@ -329,6 +389,16 @@ def printX_s(grid):
 def printO_s(grid):
     # Take a look at grid values and load images onto x-y co-ordinates
     pass
+
+
+def reset(grid):
+    #Resets grid to 0 in every position
+    #Sets current_pos to [1,1]
+    pass
+
+
+            
+        
 
 
 
