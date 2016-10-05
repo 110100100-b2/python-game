@@ -76,6 +76,9 @@ notification = myfont.render("Let's get started!", 1, (255,255,255))
 
 
 
+
+
+
 #surface = pygame.image.load('foo.png')
 
 def updateNotification(notification_object, text, screen):
@@ -180,12 +183,14 @@ def gameStatus(grid):
         if (result == 1):
             notification = myfont.render('Player 1 wins. Press "i" to play again', 1, (255,255,255))
             screen.blit(notification, (225, 60))
-            player1_score += 1
+            if (game_state == 0):
+                player1_score += 1
             game_state = 1
         elif (result == 2):
             notification = myfont.render('Player 2 wins. Press "i" to play again', 1, (255,255,255))
             screen.blit(notification, (225, 60))
-            player1_score += 1
+            if (game_state == 0):
+                player2_score += 1            
             game_state = 1
         elif (result == 0):
             notification = myfont.render('Match is drawn. Press "i" to play again', 1, (255,255,255))
@@ -353,6 +358,13 @@ while not done:
     # Updating notification
     screen.blit(notification, (225, 625-60))
     
+    #Rendering score
+    player1_score_text = myfont.render("Player 1: {}".format(player1_score), 1, (255,255,255))
+    player2_score_text = myfont.render("Player 2: {}".format(player2_score), 1, (255,255,255))
+    screen.blit(player1_score_text, (500, 20))
+    screen.blit(player2_score_text, (500, 50))
+    
+    
     #Checking game status
     gameStatus(grid)
     
@@ -417,9 +429,3 @@ def printO_s(grid):
 
             
         
-
-            
-        
-
-
-
