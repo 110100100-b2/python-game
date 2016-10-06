@@ -21,7 +21,7 @@ screen= pygame.display.set_mode((600,625))
 
 # X and O
 cross = pygame.image.load("x.png")# Player 1
-circle = pygame.image.load("circle.png") #Player 2
+circle = pygame.image.load("o.png") #Player 2
 
  
 # This sets the WIDTH and HEIGHT of each grid location
@@ -206,15 +206,16 @@ def reset(grid):
         for j in range(3):
             grid[i][j] = 0
             
-def drawtokens(current_pos):
-    """
-   If a token has been placed on the grid this function will draw it.
-   """
-    if grid[current_pos[0]][current_pos[1]] == 1:
-        screen.blit(cross,(current_pos[0],current_pos[1]))
-        print(current_pos)
-    elif grid[current_pos[0]][current_pos[1]] == 2:
-        screen.blit(circle,(current_pos[0],current_pos[1]))
+            
+def drawTokens(grid):
+    for i in range(3):
+        for j in range(3):
+            if(grid[i][j] == 1):
+                screen.blit(cross,((i+1)*125,(j+1)*125))
+            elif(grid[i][j] == 2):
+                screen.blit(circle,((i+1)*125,(j+1)*125))
+                
+                
 
 # -------- Main Program Loop -----------
 while not done:
@@ -386,6 +387,8 @@ while not done:
     #Checking game status
     gameStatus(grid)
     
+    
+    
     # Draw the grid
     for row in range(3):
         for column in range(3):
@@ -400,11 +403,10 @@ while not done:
                     screen.blit(notification, (225, 625-60))                    
                     
             elif grid[column][row] == 1: #This convention is kind of backwards because of the way cartesian co-ordinates are switched with inex notation aij
-                color = BLUE
-                drawtokens(current_pos) 
+                color = BLUE                 
             elif grid[column][row] == 2:
                 color = YELLOW
-                drawtokens(current_pos)
+                
                 
             pygame.draw.rect(screen,
                              color,
@@ -412,6 +414,9 @@ while not done:
                               75+(MARGIN + HEIGHT) * row + MARGIN,
                               WIDTH,
                               HEIGHT])
+    
+    #Draw x's and o's
+    drawTokens(grid)            
     
     
     # Limit to 60 frames per second
@@ -446,9 +451,3 @@ def printO_s(grid):
     pass
 
 
-
-
-
-
-            
-        
