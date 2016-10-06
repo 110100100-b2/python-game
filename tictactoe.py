@@ -19,6 +19,10 @@ YELLOW = (244, 194, 13)
 
 screen= pygame.display.set_mode((600,625))
 
+# X and O
+cross = pygame.image.load("x.png")# Player 1
+circle = pygame.image.load("circle.png") #Player 2
+
  
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 150
@@ -201,7 +205,16 @@ def reset(grid):
     for i in range(3):
         for j in range(3):
             grid[i][j] = 0
-         
+            
+def drawtokens(current_pos):
+    """
+   If a token has been placed on the grid this function will draw it.
+   """
+    if grid[current_pos[0]][current_pos[1]] == 1:
+        screen.blit(cross,(current_pos[0],current_pos[1]))
+        print(current_pos)
+    elif grid[current_pos[0]][current_pos[1]] == 2:
+        screen.blit(circle,(current_pos[0],current_pos[1]))
 
 # -------- Main Program Loop -----------
 while not done:
@@ -340,9 +353,12 @@ while not done:
             if event.key == pygame.K_RETURN:
                 if (player == 1):
                     grid[current_pos[0]][current_pos[1]] = 1
+                    
+                                      
                     player = 2
                 else:
                     grid[current_pos[0]][current_pos[1]] = 2
+                    
                     player = 1
                     
                     
@@ -350,6 +366,8 @@ while not done:
                 reset(grid)
                 current_pos = [1,1]
                 game_state == 0
+        
+    
                    
             
  
@@ -383,18 +401,23 @@ while not done:
                     
             elif grid[column][row] == 1: #This convention is kind of backwards because of the way cartesian co-ordinates are switched with inex notation aij
                 color = BLUE
+                drawtokens(current_pos) 
             elif grid[column][row] == 2:
-                color = YELLOW           
+                color = YELLOW
+                drawtokens(current_pos)
+                
             pygame.draw.rect(screen,
                              color,
                              [50+(MARGIN + WIDTH) * column + MARGIN,
                               75+(MARGIN + HEIGHT) * row + MARGIN,
                               WIDTH,
                               HEIGHT])
-
+    
+    
     # Limit to 60 frames per second
     clock.tick(60)
  
+    
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
